@@ -46,7 +46,7 @@ export default function (settings) {
 function generateConvertCommandAndOutputPath(imagePath, transforms) {
   const imageName = path.basename(imagePath);
   const imageTmpName = imageName.replace(path.extname(imageName), '.tiff');
-  const imageTmpPath = path.resolve(__dirname, '.tmp', imageTmpName);
+  const imageTmpPath = path.resolve(__dirname, '../.tmp', imageTmpName);
   transforms = transforms.map((option) =>
     `-${option.key} ${option.value || ''}`.trim());
   const convertCommand = ['convert', imagePath, ...transforms, imageTmpPath].join(' ');

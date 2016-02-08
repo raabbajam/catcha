@@ -59,6 +59,7 @@
     "rimraf": "*",
     "tap-spec": "*",
     "tape": "*",
+    "volkswagen": "^1.4.2",
     "watch": "*"
   },
   "dependencies": {

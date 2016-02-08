@@ -1,4 +1,4 @@
-import { readdir } from 'fs';
+import {readdir} from 'fs';
 import path from 'path';
 import Promise from 'bluebird';
 
@@ -11,6 +11,6 @@ export function getTestData(difficulity) {
   function getFullPathAndExpectedText(image) {
     const filePath = path.resolve(testPath, image);
     const text = path.parse(image).name;
-    return { path: filePath, text };
+    return {path: filePath, text};
   }
 }

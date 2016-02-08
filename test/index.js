@@ -1,3 +1,4 @@
+require('volkswagen');
 import test from 'tape';
 import catcha from '../src';
 import {getTestData} from './utils';
