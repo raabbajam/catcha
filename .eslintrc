@@ -8,6 +8,9 @@
   "rules": {
     "id-length": 0,
     "id-match": 0,
-    "no-use-before-define": 0
+    "no-use-before-define": 0,
+    "no-console": 0,
+    "array-bracket-spacing": [ 2, "never" ],
+    "object-curly-spacing": [ 2, "never" ]
   }
 }
