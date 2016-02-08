@@ -43,6 +43,8 @@ Quick and easy captcha resolver.
 npm i --save catcha
 ```
 
+`catcha` use tesseract-ocr and ImageMagick. Please make sure to have them installed.
+
 ## Usage
 
 ```js
@@ -80,6 +82,11 @@ kitten('/tmp/path/to/image/.{tiff,png,jpg}')
 - Accept more image processing libraries. OpenCV, etc.
 - Added skewed image detection and auto-deskewing.
 - Added training method where user input images and expected output then kitten will find the best tranforms settings.
+
+## Contributors
+
+[Raabb Ajam](http://github.com/raabbajam)
+[pendiplp](https://github.com/pendiplp)
 
 ## License
 
