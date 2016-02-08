@@ -49,6 +49,7 @@
     "babel-core": "^6.5.0",
     "babel-eslint": "*",
     "babel-preset-es2015": "^6.5.0",
+    "bluebird": "^3.2.2",
     "coveralls": "*",
     "dependency-check": "*",
     "doctoc": "*",

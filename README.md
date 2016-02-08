@@ -40,16 +40,46 @@ Quick and easy captcha resolver.
 ## Install
 
 ```sh
-npm i -D catcha
+npm i --save catcha
 ```
 
 ## Usage
 
 ```js
-import catcha from "catcha"
+import catcha from "catcha";
 
-catcha() // true
+const settings = {
+  transforms: [
+    {key: 'resize', value: '240x100'},
+    {key: 'colorspace', value: 'gray'},
+    {key: 'negate'},
+    {key: 'threshold', value: '12%'},
+    {key: 'blur', value: '10 '},
+    {key: 'threshold', value: '43%'},
+    {key: 'negate'},
+  ],
+  digitOnly: true,
+  deleteTemporaryImage: false,
+};
+const kitten = catcha(settings);
+kitten('/tmp/path/to/image/.{tiff,png,jpg}')
+  .then((text) => {
+    console.log(text); // 314400
+  });
 ```
+
+## Settings
+
+transforms: array of key and value for transforms. Will be passed verbatim to ImageMagick parameter.
+deleteTemporaryImage: default to true. Delete converted image via transforms settings.
+deleteSourceImage: default to false. Delete source image.
+resolveBeforeCleaning: default to true. Resolve immediately after OCR ran, without waiting cleaning finished.
+
+## TODO
+
+- Accept more image processing libraries. OpenCV, etc.
+- Added skewed image detection and auto-deskewing.
+- Added training method where user input images and expected output then kitten will find the best tranforms settings.
 
 ## License
 
