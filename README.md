@@ -70,10 +70,10 @@ kitten('/tmp/path/to/image/.{tiff,png,jpg}')
 
 ## Settings
 
-transforms: array of key and value for transforms. Will be passed verbatim to ImageMagick parameter.
-deleteTemporaryImage: default to true. Delete converted image via transforms settings.
-deleteSourceImage: default to false. Delete source image.
-resolveBeforeCleaning: default to true. Resolve immediately after OCR ran, without waiting cleaning finished.
+- transforms: array of key and value for transforms. Will be passed verbatim to ImageMagick parameter.
+- deleteTemporaryImage: default to true. Delete converted image via transforms settings.
+- deleteSourceImage: default to false. Delete source image.
+- resolveBeforeCleaning: default to true. Resolve immediately after OCR ran, without waiting cleaning finished.
 
 ## TODO
 
