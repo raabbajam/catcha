@@ -53,6 +53,7 @@
     "dependency-check": "*",
     "doctoc": "*",
     "eslint": "*",
+    "eslint-config-strict": "^7.0.4",
     "isparta": "*",
     "rimraf": "*",
     "tap-spec": "*",

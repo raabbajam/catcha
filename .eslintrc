@@ -1,9 +1,11 @@
 {
+  "extends": [ "strict" ],
   "parser": "babel-eslint",
   "env": {
     "node": true,
     "es6": true
   },
   "rules": {
+    "id-length": 0
   }
 }

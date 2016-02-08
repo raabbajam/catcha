@@ -1,7 +1,7 @@
-import test from "tape"
-import catcha from "../src"
+import test from 'tape';
+import catcha from '../src';
 
-test("catcha", (t) => {
-  t.plan(1)
-  t.equal(true, catcha(), "return true")
-})
+test('catcha', (t) => {
+  t.plan(1);
+  t.equal(true, catcha(), 'return true');
+});
