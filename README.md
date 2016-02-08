@@ -85,8 +85,8 @@ kitten('/tmp/path/to/image/.{tiff,png,jpg}')
 
 ## Contributors
 
-[Raabb Ajam](http://github.com/raabbajam)
-[pendiplp](https://github.com/pendiplp)
+- [Raabb Ajam](http://github.com/raabbajam)
+- [pendiplp](https://github.com/pendiplp)
 
 ## License
 

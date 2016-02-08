@@ -20,14 +20,23 @@ test('catcha test -- easy module', (t) => {
   const kitten = catcha(settings);
   getTestData('easy')
     .then((testData) => {
-      t.plan(testData.length);
-      return Promise.all(testData.map((image) =>
+      t.plan(1);
+      const expectedTest = testData.length;
+      let finishedTest = 0;
+      let success = false;
+      testData.forEach((image) => {
         kitten(image.path)
           .then((text) => {
-            t.equal(text, image.text);
-          })));
-    })
-    .catch(t.end);
+            if (text === image.text) {
+              success = true;
+            }
+            if (expectedTest === ++finishedTest) {
+              t.equal(success, true);
+              t.end();
+            }
+          });
+      });
+    });
 });
 
 test('catcha test -- intermediate module', (t) => {
@@ -45,11 +54,20 @@ test('catcha test -- intermediate module', (t) => {
   const kitten = catcha(settings);
   getTestData('intermediate')
     .then((testData) => {
-      t.plan(testData.length);
+      t.plan(1);
+      const expectedTest = testData.length;
+      let finishedTest = 0;
+      let success = false;
       testData.forEach((image) => {
         kitten(image.path)
           .then((text) => {
-            t.equal(text, image.text);
+            if (text === image.text) {
+              success = true;
+            }
+            if (expectedTest === ++finishedTest) {
+              t.equal(success, true);
+              t.end();
+            }
           });
       });
     });
