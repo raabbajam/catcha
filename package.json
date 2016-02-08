@@ -1,6 +1,6 @@
 {
   "name": "catcha",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Quick and easy captcha resolver.",
   "main": "dist/index.js",
   "files": [
