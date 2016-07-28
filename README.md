@@ -76,12 +76,15 @@ kitten('/tmp/path/to/image/.{tiff,png,jpg}')
 - deleteTemporaryImage: default to true. Delete converted image via transforms settings.
 - deleteSourceImage: default to false. Delete source image.
 - resolveBeforeCleaning: default to true. Resolve immediately after OCR ran, without waiting cleaning finished.
+- digitOnly: will pass '-digits' parameter for tesseract so it will only recognized digits.
 
 ## TODO
 
 - Accept more image processing libraries. OpenCV, etc.
-- Added skewed image detection and auto-deskewing.
-- Added training method where user input images and expected output then kitten will find the best tranforms settings.
+- Accept option to specify .tmp directory
+- Add skewed image detection and auto-deskewing.
+- Add training method where user input images and expected output then kitten will find the best tranforms settings.
+- Add .gitkeep to .tmp directory / use mkdirp to make sure it exists.
 
 ## Contributors
 

@@ -10,8 +10,9 @@ export default function (settings) {
     deleteTemporaryImage: true,
     deleteSourceImage: false,
     resolveBeforeCleaning: true,
+    transformFunction: (text) => text,
   };
-  const options = Object.assign({}, settings, defaults);
+  const options = Object.assign({}, defaults, settings);
   return (imagePath) => new Promise((resolve, reject) => {
     const {convertCommand, imageTmpPath} =
       generateConvertCommandAndOutputPath(imagePath, options.transforms);
@@ -28,6 +29,7 @@ export default function (settings) {
         if (options.digitOnly) {
           text = text.replace(/[^A-z\d]/, '');
         }
+        text = options.transformFunction(text);
         if (options.resolveBeforeCleaning) {
           resolve(text);
         }
