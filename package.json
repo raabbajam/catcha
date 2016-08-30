@@ -1,6 +1,6 @@
 {
   "name": "catcha",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Quick and easy captcha resolver.",
   "main": "src/index.js",
   "files": [
