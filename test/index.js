@@ -1,9 +1,7 @@
-require('volkswagen');
-import test from 'tape';
-import catcha from '../src';
-import {getTestData} from './utils';
-
-test('catcha test -- easy module', (t) => {
+const test = require('tape');
+const catcha = require('../src');
+const {getTestData} = require('./utils');
+test('catcha test -- easy module', (assert) => {
   const settings = {
     transforms: [
       {key: 'resize', value: '240x100'},
@@ -15,31 +13,21 @@ test('catcha test -- easy module', (t) => {
       {key: 'negate'},
     ],
     digitOnly: true,
-    deleteTemporaryImage: false,
+    deleteTemporaryImage: true,
   };
   const kitten = catcha(settings);
   getTestData('easy')
-    .then((testData) => {
-      t.plan(1);
-      const expectedTest = testData.length;
-      let finishedTest = 0;
-      let success = false;
-      testData.forEach((image) => {
-        kitten(image.path)
-          .then((text) => {
-            if (text === image.text) {
-              success = true;
-            }
-            if (expectedTest === ++finishedTest) {
-              t.equal(success, true);
-              t.end();
-            }
-          });
-      });
-    });
+    .map((image) =>
+      kitten(image.path)
+        .then((text) => {
+          assert.equal(text, image.text);
+        })
+    , {concurrency: 1})
+    .then(() => assert.end())
+    .catch(assert.end);
 });
 
-test.only('catcha test -- easy2 module', (t) => {
+test('catcha test -- easy2 module', (assert) => {
   const settings = {
     transforms: [
       {key: 'resize', value: '240x100'},
@@ -50,32 +38,21 @@ test.only('catcha test -- easy2 module', (t) => {
       {key: 'threshold', value: '43%'},
       {key: 'negate'},
     ],
-    deleteTemporaryImage: false,
+    deleteTemporaryImage: true,
   };
   const kitten = catcha(settings);
   getTestData('easy2')
-    .then((testData) => {
-      t.plan(1);
-      const expectedTest = testData.length;
-      let finishedTest = 0;
-      let success = true;
-      testData.forEach((image) => {
-        kitten(image.path)
-          .then((text) => {
-            console.log(text, '=== ', image.text);
-            if (text !== image.text) {
-              success = false;
-            }
-            if (expectedTest === ++finishedTest) {
-              t.equal(success, true);
-              t.end();
-            }
-          });
-      });
-    });
+    .map((image) =>
+      kitten(image.path)
+        .then((text) => {
+          assert.equal(text, image.text);
+        })
+    , {concurrency: 1})
+    .then(() => assert.end())
+    .catch(assert.end);
 });
 
-test('catcha test -- intermediate module', (t) => {
+test('catcha test -- intermediate module', (assert) => {
   const settings = {
     transforms: [
       {key: 'resize', value: '120'},
@@ -85,31 +62,21 @@ test('catcha test -- intermediate module', (t) => {
       {key: 'blur', value: '1'},
     ],
     digitOnly: true,
-    deleteTemporaryImage: false,
+    deleteTemporaryImage: true,
   };
   const kitten = catcha(settings);
   getTestData('intermediate')
-    .then((testData) => {
-      t.plan(1);
-      const expectedTest = testData.length;
-      let finishedTest = 0;
-      let success = false;
-      testData.forEach((image) => {
-        kitten(image.path)
-          .then((text) => {
-            if (text === image.text) {
-              success = true;
-            }
-            if (expectedTest === ++finishedTest) {
-              t.equal(success, true);
-              t.end();
-            }
-          });
-      });
-    });
+    .map((image) =>
+      kitten(image.path)
+        .then((text) => {
+          assert.equal(text, image.text);
+        })
+    , {concurrency: 1})
+    .then(() => assert.end())
+    .catch(assert.end);
 });
 
-test('catcha test -- hard module', (t) => {
+test('catcha test -- hard module', (assert) => {
   const settings = {
     transforms: [
       {key: 'resize', value: '240x100'},
@@ -117,28 +84,17 @@ test('catcha test -- hard module', (t) => {
       {key: 'threshold', value: '5%'},
       {key: 'blur', value: '20'},
     ],
-    deleteTemporaryImage: false,
+    deleteTemporaryImage: true,
     transformFunction: (text) => text.toLowerCase().replace(/[^\d\w]/g, ''),
   };
   const kitten = catcha(settings);
   getTestData('hard')
-    .then((testData) => {
-      t.plan(1);
-      const expectedTest = testData.length;
-      let finishedTest = 0;
-      let success = false;
-      testData.forEach((image) => {
-        kitten(image.path)
-          .then((text) => {
-            if (text === image.text) {
-              success = true;
-            }
-            console.log(`"${text}": "${image.text}"`);
-            if (expectedTest === ++finishedTest) {
-              t.equal(success, true);
-              t.end();
-            }
-          });
-      });
-    });
+    .map((image) =>
+      kitten(image.path)
+        .then((text) => {
+          assert.equal(text, image.text);
+        })
+    , {concurrency: 1})
+    .then(() => assert.end())
+    .catch(assert.end);
 });

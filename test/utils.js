@@ -1,9 +1,12 @@
-import {readdir} from 'fs';
-import path from 'path';
-import Promise from 'bluebird';
+const {readdir} = require('fs');
+const path = require('path');
+const Promise = require('bluebird');
 
 const readdirAsync = Promise.promisify(readdir);
-export function getTestData(difficulity) {
+module.exports = {
+  getTestData,
+};
+function getTestData(difficulity) {
   const testPath = path.resolve(__dirname, 'images', difficulity);
   return readdirAsync(testPath)
     .then((files) => files.map(getFullPathAndExpectedText));

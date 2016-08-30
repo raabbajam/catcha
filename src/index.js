@@ -1,54 +1,52 @@
-import {exec} from 'child_process';
-import path from 'path';
-
-/**
- * @param {Type}
- * @return {Type}
- */
-export default function (settings) {
+const Promise = require('bluebird');
+const debug = require('debug')('catcha');
+const {exec} = require('child_process');
+const {ensureDir, remove} = require('fs-extra');
+const execAsync = Promise.promisify(exec);
+const ensureDirAsync = Promise.promisify(ensureDir);
+const removeAsync = Promise.promisify(remove);
+const path = require('path');
+module.exports = function Catcha(settings = {}) {
   const defaults = {
+    temporarypath: path.resolve(__dirname, '../.tmp'),
     deleteTemporaryImage: true,
     deleteSourceImage: false,
     resolveBeforeCleaning: true,
     transformFunction: (text) => text,
   };
   const options = Object.assign({}, defaults, settings);
-  return (imagePath) => new Promise((resolve, reject) => {
+  return (imagePath) => {
     const {convertCommand, imageTmpPath} =
-      generateConvertCommandAndOutputPath(imagePath, options.transforms);
-    exec(convertCommand, (error) => {
-      if (error) {
-        return reject(error);
-      }
-      exec(`tesseract ${imageTmpPath} stdout\
-        ${options.digitOnly ? ' digits' : ''}`, (error2, text) => {
-        if (error2) {
-          return reject(error2);
-        }
+      generateConvertCommandAndOutputPath(options.temporarypath, imagePath, options.transforms);
+    const {dir: imageTmpDir} = path.parse(imageTmpPath);
+    const tesseractCommand = `tesseract ${imageTmpPath} stdout ${options.digitOnly ? ' digits' : ''}`;
+    debug({imageTmpDir, convertCommand, tesseractCommand});
+    return Promise.resolve()
+      .then(() => ensureDirAsync(imageTmpDir))
+      .then(() => execAsync(convertCommand))
+      .then(() => execAsync(tesseractCommand))
+      .then((text) => {
         text = text.trim();
+        text = text.replace(/\s/g, '');
         if (options.digitOnly) {
           text = text.replace(/[^A-z\d]/, '');
         }
         text = options.transformFunction(text);
+        debug({text});
         if (options.resolveBeforeCleaning) {
-          resolve(text);
+          cleaning({options, imagePath, imageTmpPath});
+          return text;
         }
         return cleaning({options, imagePath, imageTmpPath})
-          .then(() => {
-            const resolveAfterCleaning = !options.resolveBeforeCleaning;
-            if (resolveAfterCleaning) {
-              return resolve(text);
-            }
-          });
+          .tap(debug)
+          .then(() => text);
       });
-    });
-  });
-}
-
-function generateConvertCommandAndOutputPath(imagePath, transforms) {
+  };
+};
+function generateConvertCommandAndOutputPath(temporarypath, imagePath, transforms) {
   const imageName = path.basename(imagePath);
   const imageTmpName = imageName.replace(path.extname(imageName), '.tiff');
-  const imageTmpPath = path.resolve(__dirname, '../.tmp', imageTmpName);
+  const imageTmpPath = path.resolve(temporarypath, imageTmpName);
   transforms = transforms.map((option) =>
     `-${option.key} ${option.value || ''}`.trim());
   const convertCommand = ['convert', imagePath, ...transforms, imageTmpPath].join(' ');
@@ -68,6 +66,6 @@ function cleaning({options, imagePath, imageTmpPath}) {
     Promise.resolve();
 }
 
-function deleteFile() {
-  return Promise.resolve();
+function deleteFile(filepath) {
+  return removeAsync(filepath).return(true).catchReturn(false);
 }
